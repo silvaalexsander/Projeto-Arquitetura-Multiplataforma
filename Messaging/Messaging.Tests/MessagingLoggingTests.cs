@@ -4,6 +4,7 @@ using Messaging.Contracts;
 using Messaging.Contracts.Appointments;
 using Messaging.Kafka;
 using Messaging.Outbox;
+using Messaging.Telemetry;
 using Messaging.Tests.Helpers;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
@@ -148,6 +149,7 @@ public class MessagingLoggingTests
             services.BuildServiceProvider().GetRequiredService<IServiceScopeFactory>(),
             _producerMock.Object,
             Options.Create(options),
+            new MessagingMetrics(),
             logger);
     }
 
@@ -160,6 +162,7 @@ public class MessagingLoggingTests
             services.BuildServiceProvider().GetRequiredService<IServiceScopeFactory>(),
             _producerMock.Object,
             Options.Create(new KafkaOptions { Outbox = new KafkaOutboxOptions { BatchSize = 10 } }),
+            new MessagingMetrics(),
             logger);
     }
 
